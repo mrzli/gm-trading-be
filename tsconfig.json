@@ -1,0 +1,15 @@
+{
+  "extends": "@gmjs/tsconfig",
+  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "compilerOptions": {
+    "rootDir": ".",
+    "outDir": "./dist",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "lib": ["ES2022"],
+    "target": "ES2022",
+    "declaration": true,
+    "sourceMap": true,
+    "incremental": true
+  }
+}
