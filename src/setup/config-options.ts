@@ -6,6 +6,7 @@ export function createConfigOptions(env: Env): ConfigOptions {
     logLevel: env.logLevel ?? 'debug',
     port: env.port,
     apiPrefix: env.apiPrefix,
-    frontendUrl: env.frontendUrl,
+    corsAllowedOrigins: env.corsAllowedOrigins,
+    dataDir: env.dataDir,
   };
 }

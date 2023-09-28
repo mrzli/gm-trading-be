@@ -29,7 +29,7 @@ async function bootstrap(): Promise<void> {
   const options: NestAppBootstrapOptions = {
     port: CONFIG_OPTIONS.port,
     globalPrefix: CONFIG_OPTIONS.apiPrefix,
-    frontendUrl: CONFIG_OPTIONS.frontendUrl,
+    corsAllowedOrigins: CONFIG_OPTIONS.corsAllowedOrigins,
   };
 
   await bootstrapNestApp(app, logger, options);

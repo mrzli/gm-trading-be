@@ -6,7 +6,7 @@ import { Except } from 'type-fest';
 export interface NestAppBootstrapOptions {
   readonly port: number;
   readonly globalPrefix: string;
-  readonly frontendUrl: string | undefined;
+  readonly corsAllowedOrigins: readonly string[] | undefined;
 }
 
 export type NestAppSetupOptions = Except<NestAppBootstrapOptions, 'port'>;
@@ -16,9 +16,9 @@ export async function bootstrapNestApp(
   logger: LoggerService,
   options: NestAppBootstrapOptions,
 ): Promise<void> {
-  const { port, globalPrefix, frontendUrl } = options;
+  const { port, globalPrefix, corsAllowedOrigins } = options;
 
-  setupNestApp(app, { globalPrefix, frontendUrl });
+  setupNestApp(app, { globalPrefix, corsAllowedOrigins });
   await app.listen(port);
   logger.debug?.(
     `🚀 Application is running on: http://localhost:${port}/${globalPrefix}`,
@@ -29,10 +29,12 @@ export function setupNestApp(
   app: INestApplication,
   options: NestAppSetupOptions,
 ): void {
-  const { globalPrefix, frontendUrl } = options;
+  const { globalPrefix, corsAllowedOrigins } = options;
 
-  if (frontendUrl) {
-    app.enableCors({ origin: frontendUrl });
+  if (corsAllowedOrigins !== undefined) {
+    app.enableCors({
+      origin: [...corsAllowedOrigins],
+    });
   }
   app.setGlobalPrefix(globalPrefix);
   app.use(helmet());

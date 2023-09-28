@@ -10,7 +10,8 @@ const CONFIG_OPTIONS: ConfigOptions = {
   logLevel: 'debug',
   port: 3000,
   apiPrefix: 'api',
-  frontendUrl: undefined,
+  corsAllowedOrigins: undefined,
+  dataDir: 'data',
 };
 
 describe('ExampleController', () => {

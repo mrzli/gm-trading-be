@@ -5,5 +5,6 @@ export interface ConfigOptions {
   readonly logLevel: LogLevelOrOff;
   readonly port: number;
   readonly apiPrefix: string;
-  readonly frontendUrl: string | undefined;
+  readonly corsAllowedOrigins: readonly string[] | undefined;
+  readonly dataDir: string;
 }
