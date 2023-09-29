@@ -1,3 +1,3 @@
-export * from './config-options';
-export * from './env';
+export * from './config';
+export * from './domain';
 export * from './generic';

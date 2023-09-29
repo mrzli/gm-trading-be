@@ -1,8 +1,8 @@
-import { LogLevelOrOff } from './generic';
+import { LogLevelOrOff } from '../generic';
 
-export interface Env {
+export interface ConfigOptions {
   readonly nodeEnv: string;
-  readonly logLevel: LogLevelOrOff | undefined;
+  readonly logLevel: LogLevelOrOff;
   readonly port: number;
   readonly apiPrefix: string;
   readonly corsAllowedOrigins: readonly string[] | undefined;
