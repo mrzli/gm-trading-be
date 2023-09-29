@@ -1,5 +1,7 @@
 import { Controller, Get } from '@nestjs/common';
 import { TickerDataService } from './ticker-data.service';
+import { BodyZodValidated, QueryString } from '../../middleware/decorators/parameter';
+import { z } from 'zod';
 
 @Controller('ticker-data')
 export class TickerDataController {
@@ -11,7 +13,10 @@ export class TickerDataController {
   }
 
   @Get('ticker-data')
-  public async getTickerData(): Promise<readonly string[]> {
+  public async getTickerData(
+    @BodyZodValidated(z.any()) body: unknown,
+  ): Promise<readonly string[]> {
+    console.log(body);
     return await this.tickerDataService.getTickerData();
   }
 }

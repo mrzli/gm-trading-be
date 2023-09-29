@@ -1,0 +1,62 @@
+[
+  {
+    "name": "DJI",
+    "marketId": 17322,
+    "quoteId": 6647,
+    "precision": 1,
+    "dataPrecision": 1,
+    "spread": 1.5,
+    "minStopLoss": 6.0,
+    "openTime": "09:30",
+    "closeTime": "16:00",
+    "timezone": "America/New_York"
+  },
+  {
+    "name": "NDX",
+    "marketId": 20190,
+    "quoteId": 16917,
+    "precision": 1,
+    "dataPrecision": 2,
+    "spread": 0.7,
+    "minStopLoss": 6.0,
+    "openTime": "09:30",
+    "closeTime": "16:00",
+    "timezone": "America/New_York"
+  },
+  {
+    "name": "DAX",
+    "marketId": 17068,
+    "quoteId": 6374,
+    "precision": 1,
+    "dataPrecision": 2,
+    "spread": 0.9,
+    "minStopLoss": 6.0,
+    "openTime": "09:00",
+    "closeTime": "17:30",
+    "timezone": "Europe/Berlin"
+  },
+  {
+    "name": "FTSE",
+    "marketId": 16645,
+    "quoteId": 5945,
+    "precision": 1,
+    "dataPrecision": 1,
+    "spread": 0.6,
+    "minStopLoss": 4.0,
+    "openTime": "08:00",
+    "closeTime": "16:30",
+    "timezone": "Europe/London"
+  },
+  {
+    "name": "NI225",
+    "marketId": 65066,
+    "quoteId": 862708,
+    "precision": 0,
+    "dataPrecision": 1,
+    "spread": 4.0,
+    "minStopLoss": 4.0,
+    "openTime": "09:00",
+    "closeTime": "15:00",
+    "timezone": "Asia/Tokyo"
+  }
+]
