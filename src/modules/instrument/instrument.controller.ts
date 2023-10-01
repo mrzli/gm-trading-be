@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { ParamString } from '../../middleware/decorators/parameter/param';
-import { Instrument } from '../../types';
+import { Instrument } from '@gmjs/gm-trading-shared';
 import { InstrumentService } from './instrument.service';
 
 @Controller('instrument')

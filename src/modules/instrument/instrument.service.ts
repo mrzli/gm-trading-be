@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Instrument } from '../../types';
+import { Instrument } from '@gmjs/gm-trading-shared';
 import { DataService } from '../data/data.service';
 
 @Injectable()

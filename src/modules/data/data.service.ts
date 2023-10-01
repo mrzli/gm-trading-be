@@ -7,7 +7,7 @@ import { mapGetOrThrow } from '@gmjs/data-container-util';
 import { applyFn } from '@gmjs/apply-function';
 import { compose } from '@gmjs/compose-function';
 import { map, toMap } from '@gmjs/value-transformers';
-import { Instrument } from '../../types';
+import { Instrument } from '@gmjs/gm-trading-shared';
 
 @Injectable()
 export class DataService {
