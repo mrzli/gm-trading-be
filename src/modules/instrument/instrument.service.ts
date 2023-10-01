@@ -11,6 +11,6 @@ export class InstrumentService {
   }
 
   public async getByName(name: string): Promise<Instrument> {
-    return await this.dataService.getInstrument(name);
+    return await this.dataService.getInstrumentByName(name);
   }
 }

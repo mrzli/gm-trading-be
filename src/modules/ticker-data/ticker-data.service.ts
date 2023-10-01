@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { DateTime } from 'luxon';
 import { join, pathFsName } from '@gmjs/path';
 import { readTextAsync } from '@gmjs/fs-async';
-import { TickerDataRequestBody } from '@gmjs/gm-trading-shared';
+import { TickerDataRequest, TickerDataResponse } from '@gmjs/gm-trading-shared';
 import { ConfigService } from '../config/config.service';
 import { DataService } from '../data/data.service';
 import { fromFindFsEntries } from '@gmjs/fs-observable';
@@ -31,9 +31,9 @@ export class TickerDataService {
   }
 
   public async getTickerData(
-    input: TickerDataRequestBody,
-  ): Promise<readonly string[]> {
-    const { name } = input;
+    input: TickerDataRequest,
+  ): Promise<TickerDataResponse> {
+    const { name, resolution, from, to } = input;
 
     const instruments = await this.dataService.getAllInstruments();
     const instrumentNames = new Set(
@@ -43,24 +43,44 @@ export class TickerDataService {
       throw new BadRequestException(`Instrument with name ${name} not found.`);
     }
 
+    const instrument = await this.dataService.getInstrumentByName(name);
+
+    const dateFrom = DateTime.fromISO(from, { zone: 'UTC' });
+    const dateTo = DateTime.fromISO(to, { zone: 'UTC' });
+
     const paths = await getDataPaths(input, this.dataDir);
-    console.log(paths);
 
     const contents = await Promise.all(
       paths.map((path) => readTextAsync(path)),
     );
-    return applyFn(
+    
+    const data = applyFn(
       contents,
       compose(
         flatMap((content: string) => tickerDataContentToLines(content)),
         toArray(),
       ),
     );
+
+    const finalData = cropDataToDateRange(data, dateFrom, dateTo);
+    if (finalData.length > 1000) {
+      throw new BadRequestException(
+        `Too much data requested. Please request a smaller date range.`,
+      );
+    }
+
+    return {
+      instrument,
+      resolution,
+      from,
+      to,
+      data: finalData,
+    };
   }
 }
 
 async function getDataPaths(
-  input: TickerDataRequestBody,
+  input: TickerDataRequest,
   dataDir: string,
 ): Promise<readonly string[]> {
   const { name, resolution, from, to } = input;
@@ -198,4 +218,45 @@ function filterEntryMinute(
 function tickerDataContentToLines(content: string): readonly string[] {
   const lines = content.split('\n').filter((line) => line.trim() !== '');
   return lines.length > 0 ? lines.slice(1) : [];
+}
+
+function cropDataToDateRange(data: readonly string[], dateFrom: DateTime, dateTo: DateTime): readonly string[] {
+  const tsFrom = dateFrom.toSeconds();
+  const tsTo = dateTo.toSeconds();
+
+  const firstTs = parseIntegerOrThrow(data[0]?.split(',')[0] ?? '');
+  const lastTs = parseIntegerOrThrow(data.at(-1)?.split(',')[0] ?? '');
+
+  if (tsTo < tsFrom || tsFrom > lastTs || tsTo < firstTs) {
+    return [];
+  }
+
+  let firstIndex = data.length;
+
+  // eslint-disable-next-line unicorn/no-for-loop
+  for (let i = 0; i < data.length; i++) {
+    const line = data[i] ?? '';
+    const [tsStr] = line.split(',');
+    const ts = parseIntegerOrThrow(tsStr ?? '');
+    if (ts >= tsFrom) {
+      firstIndex = i;
+      break;
+    }
+  }
+
+  let lastIndex = -1;
+
+  for (let i = firstIndex; i < data.length; i++) {
+    const line = data[i] ?? '';
+    const [tsStr] = line.split(',');
+    const ts = parseIntegerOrThrow(tsStr ?? '');
+    if (ts > tsTo) {
+      lastIndex = i;
+      break;
+    }
+  }
+
+  lastIndex = lastIndex === -1 ? data.length : lastIndex;
+
+  return data.slice(firstIndex, lastIndex);
 }

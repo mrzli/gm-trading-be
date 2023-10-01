@@ -1,9 +1,10 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { TickerDataService } from './ticker-data.service';
 import { BodyZodValidated } from '../../middleware/decorators/parameter';
 import {
   SCHEMA_TICKER_DATA_REQUEST_BODY,
-  TickerDataRequestBody,
+  TickerDataRequest,
+  TickerDataResponse,
 } from '@gmjs/gm-trading-shared';
 
 @Controller('ticker-data')
@@ -15,11 +16,11 @@ export class TickerDataController {
     return 'some value';
   }
 
-  @Get('ticker-data')
+  @Post('ticker-data')
   public async getTickerData(
     @BodyZodValidated(SCHEMA_TICKER_DATA_REQUEST_BODY)
-    body: TickerDataRequestBody,
-  ): Promise<readonly string[]> {
+    body: TickerDataRequest,
+  ): Promise<TickerDataResponse> {
     return await this.tickerDataService.getTickerData(body);
   }
 }

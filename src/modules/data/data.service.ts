@@ -21,7 +21,7 @@ export class DataService {
     return this.instruments;
   }
 
-  public async getInstrument(name: string): Promise<Instrument> {
+  public async getInstrumentByName(name: string): Promise<Instrument> {
     await this.intializeInstruments();
     const instrument = mapGetOrThrow(this.instrumentMap, name);
     return instrument;
