@@ -1,2 +1,2 @@
 export * from './data-paths';
-export * from './ticker-data';
+export * from './read-data';

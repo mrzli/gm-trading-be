@@ -1,13 +1,10 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { DateTime } from 'luxon';
-import { readTextAsync } from '@gmjs/fs-async';
 import { TickerDataRequest, TickerDataResponse } from '@gmjs/gm-trading-shared';
 import { ConfigService } from '../config/config.service';
 import { DataService } from '../data/data.service';
-import { applyFn } from '@gmjs/apply-function';
-import { compose } from '@gmjs/compose-function';
-import { flatMap, toArray } from '@gmjs/value-transformers';
-import { cropDataToDateRange, getDataPaths, tickerDataContentToLines } from './util';
+import { getDataPaths, readData } from './util';
+
+const MIN_FETCHED_ENTRIES = 1000;
 
 @Injectable()
 export class TickerDataService {
@@ -36,36 +33,16 @@ export class TickerDataService {
 
     const instrument = await this.dataService.getInstrumentByName(name);
 
-    const dateFrom = DateTime.fromISO(from, { zone: 'UTC' });
-    const dateTo = DateTime.fromISO(to, { zone: 'UTC' });
-
     const paths = await getDataPaths(input, this.dataDir);
 
-    const contents = await Promise.all(
-      paths.map((path) => readTextAsync(path)),
-    );
-    
-    const data = applyFn(
-      contents,
-      compose(
-        flatMap((content: string) => tickerDataContentToLines(content)),
-        toArray(),
-      ),
-    );
-
-    const finalData = cropDataToDateRange(data, dateFrom, dateTo);
-    if (finalData.length > 1000) {
-      throw new BadRequestException(
-        `Too much data requested. Please request a smaller date range.`,
-      );
-    }
+    const data = await readData(paths, MIN_FETCHED_ENTRIES);
 
     return {
       instrument,
       resolution,
       from,
       to,
-      data: finalData,
+      data,
     };
   }
 }

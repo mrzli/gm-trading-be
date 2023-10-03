@@ -54,6 +54,7 @@
     "zod": "^3.22.2"
   },
   "devDependencies": {
+    "@gmjs/array-sort": "^0.0.2",
     "@gmjs/eslint-config": "^0.0.24",
     "@gmjs/jest-config": "^0.0.6",
     "@gmjs/prettier-config": "^1.0.45",
