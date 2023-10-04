@@ -4,7 +4,7 @@ import { ConfigService } from '../config/config.service';
 import { DataService } from '../data/data.service';
 import { getDataPaths, readData } from './util';
 
-const MIN_FETCHED_ENTRIES = 1000;
+const DATA_ENTRIES_PADDING = 1000;
 
 @Injectable()
 export class TickerDataService {
@@ -21,7 +21,7 @@ export class TickerDataService {
   public async getTickerData(
     input: TickerDataRequest,
   ): Promise<TickerDataResponse> {
-    const { name, resolution, from, to } = input;
+    const { name, resolution, date } = input;
 
     const instruments = await this.dataService.getAllInstruments();
     const instrumentNames = new Set(
@@ -35,14 +35,19 @@ export class TickerDataService {
 
     const paths = await getDataPaths(input, this.dataDir);
 
-    const data = await readData(paths, MIN_FETCHED_ENTRIES);
+    const { data, limitStart, limitEnd } = await readData(
+      input,
+      paths,
+      DATA_ENTRIES_PADDING,
+    );
 
     return {
       instrument,
       resolution,
-      from,
-      to,
+      date,
       data,
+      limitStart,
+      limitEnd,
     };
   }
 }

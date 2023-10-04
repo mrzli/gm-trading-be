@@ -8,7 +8,7 @@ import { fromFindFsEntries } from '@gmjs/fs-observable';
 import { FilePathStats } from '@gmjs/fs-shared';
 import { TickerDataRequest } from '@gmjs/gm-trading-shared';
 import { join } from '@gmjs/path';
-import { sortArray, compareStringDesc } from '@gmjs/array-sort';
+import { sortArray, compareStringAsc } from '@gmjs/array-sort';
 
 export async function getDataPaths(
   input: TickerDataRequest,
@@ -23,7 +23,7 @@ export async function getDataPaths(
       filter((entry) => isTickerDataFile(entry)),
       mapRx((entry) => entry.path),
       toArrayRx(),
-      mapRx((paths) => sortArray(paths, compareStringDesc())),
+      mapRx((paths) => sortArray(paths, compareStringAsc())),
     ),
   );
 }

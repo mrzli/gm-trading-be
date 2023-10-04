@@ -27,8 +27,8 @@ dependencies:
     specifier: ^0.0.3
     version: 0.0.3
   '@gmjs/gm-trading-shared':
-    specifier: ^0.0.12
-    version: 0.0.12
+    specifier: ^0.0.14
+    version: 0.0.14
   '@gmjs/number-util':
     specifier: ^0.0.1
     version: 0.0.1
@@ -783,8 +783,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@gmjs/gm-trading-shared@0.0.12:
-    resolution: {integrity: sha512-S3WhhVaNfFVdqpqnvLtbxmh4HGLPbRNgPIZPMXTWtpkppXFFv7hE6gtpvjo+zsbQaLycxCmLPF5WCSAsZhKTmg==}
+  /@gmjs/gm-trading-shared@0.0.14:
+    resolution: {integrity: sha512-rxY29EWwwKgQEZGTm80744MVD4vqd8XkSsnvYFI56Q7y3qfcAHdzR7PxnsFmVQKucMj7qFXD+AugD9/xTYfkDA==}
     engines: {node: '>=18.17.0'}
     dependencies:
       tslib: 2.6.2
