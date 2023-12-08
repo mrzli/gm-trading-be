@@ -60,7 +60,6 @@ describe('split-file-data', () => {
           before: DATA.slice(0, example.expected),
           after: DATA.slice(example.expected),
         };
-        console.log(expected);
         const actual = splitFileDataByTimestamp(DATA, example.input);
         expect(actual).toEqual(expected);
       });

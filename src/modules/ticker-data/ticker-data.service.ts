@@ -4,7 +4,7 @@ import { ConfigService } from '../config/config.service';
 import { DataService } from '../data/data.service';
 import { getDataPaths, readData } from './util';
 
-const DATA_ENTRIES_PADDING = 1000;
+const DATA_ENTRIES_PADDING = 1_000_000;
 
 @Injectable()
 export class TickerDataService {
