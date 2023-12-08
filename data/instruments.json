@@ -58,5 +58,41 @@
     "openTime": "09:00",
     "closeTime": "15:00",
     "timezone": "Asia/Tokyo"
+  },
+  {
+    "name": "EUR_USD",
+    "marketId": 16635,
+    "quoteId": 5893,
+    "precision": 5,
+    "dataPrecision": 6,
+    "spread": 0.00003,
+    "minStopLoss": 0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "Europe/London"
+  },
+  {
+    "name": "GBP_USD",
+    "marketId": 16639,
+    "quoteId": 5906,
+    "precision": 5,
+    "dataPrecision": 6,
+    "spread": 0.00008,
+    "minStopLoss": 0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "Europe/London"
+  },
+  {
+    "name": "USD_JPY",
+    "marketId": 16652,
+    "quoteId": 5958,
+    "precision": 3,
+    "dataPrecision": 4,
+    "spread": 0.007,
+    "minStopLoss": 0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "Europe/London"
   }
 ]

@@ -69,7 +69,7 @@ const INSTRUMENTS_SCHEMA: JSONSchemaType<InstrumentsFileData> = {
     properties: {
       name: {
         type: 'string',
-        pattern: `^[A-Z0-9]+$`,
+        pattern: `^[A-Z0-9]+([A-Z0-9_]*)$`,
       },
       marketId: { type: 'integer', minimum: 0 },
       quoteId: { type: 'integer', minimum: 0 },
