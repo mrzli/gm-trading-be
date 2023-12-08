@@ -27,8 +27,8 @@ dependencies:
     specifier: ^0.0.3
     version: 0.0.3
   '@gmjs/gm-trading-shared':
-    specifier: ^0.0.16
-    version: 0.0.16
+    specifier: ^0.0.17
+    version: 0.0.17
   '@gmjs/number-util':
     specifier: ^0.0.1
     version: 0.0.1
@@ -92,8 +92,8 @@ devDependencies:
     specifier: ^1.0.45
     version: 1.0.45
   '@gmjs/tsconfig':
-    specifier: ^1.0.9
-    version: 1.0.9
+    specifier: ^1.0.10
+    version: 1.0.10
   '@jest/globals':
     specifier: ^29.7.0
     version: 29.7.0
@@ -758,8 +758,8 @@ packages:
       tslib: 2.6.2
     dev: false
 
-  /@gmjs/gm-trading-shared@0.0.16:
-    resolution: {integrity: sha512-lqsn3H5y7ZiVo7109tLX6RZeSrH79e0TCRRim3zd1zMQNRbE8yWK6he6R+KNjQsRsgTzW/nc5F1bUr0mfunU1w==}
+  /@gmjs/gm-trading-shared@0.0.17:
+    resolution: {integrity: sha512-7Bm3ewtymgQd7FnAZvm9gMfNSLFvMPZ6WlbCfnluy6xUrSvmRLH68+6qsQ9UDuqdBCtMhF1vFb+PGtMTBBdrxg==}
     engines: {node: '>=18.17.0'}
     dependencies:
       tslib: 2.6.2
@@ -791,8 +791,8 @@ packages:
     resolution: {integrity: sha512-pDVdasYadwsaGcCyPRRghrsKqJQurGiUNakaELmfWyM3OXdZT+OYkcbCBhV3WY+mUEJGvaPIFk2kG0uzytpByw==}
     dev: true
 
-  /@gmjs/tsconfig@1.0.9:
-    resolution: {integrity: sha512-KqRWEmcqObOmeD3NZnbfqm/aDY5F7Aw9G1hfxTazKQzrdFS0cVTuR86W2LyIbV6hVnqUOQa6kr0azfn7jWgaPg==}
+  /@gmjs/tsconfig@1.0.10:
+    resolution: {integrity: sha512-O6JFB61L8A5ded2kJJTX6PVWE1PB8lBw2t6wjmVfBqn07H5RyfG2qS55ZEl+vQ2OVZ633TDYt1U3xnhGzFRajQ==}
     dev: true
 
   /@gmjs/value-transformers@0.0.4:
