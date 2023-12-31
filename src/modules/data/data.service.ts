@@ -5,8 +5,7 @@ import { readTextAsync } from '@gmjs/fs-async';
 import { invariant } from '@gmjs/assert';
 import { mapGetOrThrow } from '@gmjs/data-container-util';
 import { applyFn } from '@gmjs/apply-function';
-import { compose } from '@gmjs/compose-function';
-import { map, toMap } from '@gmjs/value-transformers';
+import { toMapBy } from '@gmjs/value-transformers';
 import { Instrument } from '@gmjs/gm-trading-shared';
 
 @Injectable()
@@ -33,10 +32,7 @@ export class DataService {
       this._instruments = instruments;
       this._instrumentMap = applyFn(
         instruments,
-        compose(
-          map((item) => [item.name, item] as const),
-          toMap(),
-        ),
+        toMapBy((item) => item.name),
       );
     }
   }
@@ -75,6 +71,7 @@ const INSTRUMENTS_SCHEMA: JSONSchemaType<InstrumentsFileData> = {
       quoteId: { type: 'integer', minimum: 0 },
       precision: { type: 'integer', minimum: 0 },
       dataPrecision: { type: 'integer', minimum: 0 },
+      pipDigit: { type: 'integer' },
       spread: { type: 'number', minimum: 0 },
       minStopLoss: { type: 'number', minimum: 0 },
       openTime: { type: 'string', pattern: TIME_REGEX },
@@ -97,7 +94,8 @@ const INSTRUMENTS_SCHEMA: JSONSchemaType<InstrumentsFileData> = {
   },
 };
 
-const validateInstruments = AJV.compile<InstrumentsFileData>(INSTRUMENTS_SCHEMA);
+const validateInstruments =
+  AJV.compile<InstrumentsFileData>(INSTRUMENTS_SCHEMA);
 
 async function readInstruments(): Promise<readonly Instrument[]> {
   const path = join(SERVER_DATA_DIR, 'instruments.json');
