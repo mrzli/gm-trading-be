@@ -75,7 +75,7 @@
     "minStopLoss": 6.0,
     "openTime": "00:00",
     "closeTime": "00:00",
-    "timezone": "Europe/London"
+    "timezone": "UTC"
   },
   {
     "name": "GBP_USD",
@@ -88,7 +88,7 @@
     "minStopLoss": 6.0,
     "openTime": "00:00",
     "closeTime": "00:00",
-    "timezone": "Europe/London"
+    "timezone": "UTC"
   },
   {
     "name": "USD_JPY",
@@ -101,6 +101,6 @@
     "minStopLoss": 6.0,
     "openTime": "00:00",
     "closeTime": "00:00",
-    "timezone": "Europe/London"
+    "timezone": "UTC"
   }
 ]
