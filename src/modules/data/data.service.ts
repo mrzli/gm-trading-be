@@ -2,7 +2,7 @@ import { join } from 'node:path';
 import Ajv, { JSONSchemaType } from 'ajv';
 import { Injectable } from '@nestjs/common';
 import { readTextAsync } from '@gmjs/fs-async';
-import { invariant } from '@gmjs/assert';
+import { ensureNotUndefined, invariant } from '@gmjs/assert';
 import { mapGetOrThrow } from '@gmjs/data-container-util';
 import { applyFn } from '@gmjs/apply-function';
 import { toMapBy } from '@gmjs/value-transformers';
@@ -27,26 +27,24 @@ export class DataService {
   }
 
   private async intializeInstruments(): Promise<void> {
-    if (!this._instruments) {
-      const instruments = await readInstruments();
-      this._instruments = instruments;
-      this._instrumentMap = applyFn(
-        instruments,
-        toMapBy((item) => item.name),
-      );
+    if (this._instruments) {
+      return;
     }
+
+    const instruments = await readInstruments();
+    this._instruments = instruments;
+    this._instrumentMap = applyFn(
+      instruments,
+      toMapBy((item) => item.name),
+    );
   }
 
   private get instruments(): readonly Instrument[] {
-    const instruments = this._instruments;
-    invariant(instruments !== undefined, 'Instruments not initialized.');
-    return instruments;
+    return ensureNotUndefined(this._instruments);
   }
 
   private get instrumentMap(): ReadonlyMap<string, Instrument> {
-    const instrumentMap = this._instrumentMap;
-    invariant(instrumentMap !== undefined, 'Instruments not initialized.');
-    return instrumentMap;
+    return ensureNotUndefined(this._instrumentMap);
   }
 }
 

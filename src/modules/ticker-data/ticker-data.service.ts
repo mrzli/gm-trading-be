@@ -1,22 +1,17 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { TickerDataRequest, TickerDataResponse } from '@gmjs/gm-trading-shared';
-import { ConfigService } from '../config/config.service';
 import { DataService } from '../data/data.service';
 import { getDataPaths, readData } from './util';
+import { TickerDataMetadataService } from '../ticker-data-metadata/ticker-data-metadata.service';
 
 const DATA_ENTRIES_PADDING = 1_000_000;
 
 @Injectable()
 export class TickerDataService {
-  private readonly dataDir: string;
-
   public constructor(
-    configService: ConfigService,
+    private readonly tickerDataMetadataService: TickerDataMetadataService,
     private readonly dataService: DataService,
-  ) {
-    const { dataDir } = configService.configOptions;
-    this.dataDir = dataDir;
-  }
+  ) {}
 
   public async getTickerData(
     input: TickerDataRequest,
@@ -33,7 +28,11 @@ export class TickerDataService {
 
     const instrument = await this.dataService.getInstrumentByName(name);
 
-    const paths = await getDataPaths(input, this.dataDir);
+    const metadata =
+      await this.tickerDataMetadataService.getTd365DataMetadata();
+    const { dataDir } = metadata;
+
+    const paths = await getDataPaths(input, dataDir);
 
     const { data, limitStart, limitEnd } = await readData(
       input,

@@ -24,7 +24,7 @@ const ENV_SCHEMA = z.object({
   PORT: z.string().regex(/^\d{1,5}$/),
   API_PREFIX: z.string().regex(/^[\da-z]+(?:-[\da-z])*$/),
   CORS_ALLOWED_ORIGINS: SCHEMA_COMMA_SEPARATED_URLS.optional(),
-  DATA_DIR: z.string(),
+  TD365_DATA_DIR: z.string(),
 });
 
 type EnvRaw = z.infer<typeof ENV_SCHEMA>;
@@ -41,7 +41,7 @@ function envRawToEnv(raw: EnvRaw): Env {
     port: parseIntegerOrThrow(raw.PORT),
     apiPrefix: raw.API_PREFIX,
     corsAllowedOrigins: toCorsAllowedOrigins(raw.CORS_ALLOWED_ORIGINS),
-    dataDir: raw.DATA_DIR,
+    td365DataDir: raw.TD365_DATA_DIR,
   };
 }
 

@@ -7,6 +7,6 @@ export function createConfigOptions(env: Env): ConfigOptions {
     port: env.port,
     apiPrefix: env.apiPrefix,
     corsAllowedOrigins: env.corsAllowedOrigins,
-    dataDir: env.dataDir,
+    td365DataDir: env.td365DataDir,
   };
 }

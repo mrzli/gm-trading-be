@@ -11,7 +11,7 @@ const CONFIG_OPTIONS: ConfigOptions = {
   port: 3000,
   apiPrefix: 'api',
   corsAllowedOrigins: undefined,
-  dataDir: 'data',
+  td365DataDir: 'data',
 };
 
 describe('ExampleController', () => {

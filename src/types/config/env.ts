@@ -6,5 +6,5 @@ export interface Env {
   readonly port: number;
   readonly apiPrefix: string;
   readonly corsAllowedOrigins: readonly string[] | undefined;
-  readonly dataDir: string;
+  readonly td365DataDir: string;
 }
