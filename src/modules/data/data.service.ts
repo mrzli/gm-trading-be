@@ -20,6 +20,11 @@ export class DataService {
     return this.instruments;
   }
 
+  public async hasInstrument(name: string): Promise<boolean> {
+    await this.intializeInstruments();
+    return this.instrumentMap.has(name);
+  }
+
   public async getInstrumentByName(name: string): Promise<Instrument> {
     await this.intializeInstruments();
     const instrument = mapGetOrThrow(this.instrumentMap, name);
