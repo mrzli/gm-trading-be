@@ -1,5 +1,5 @@
 import { parseIntegerOrThrow } from '@gmjs/number-util';
-import { BeforeAfterData } from '../types';
+import { BeforeAfterData } from '../../types';
 
 export function splitFileDataByTimestamp(
   data: readonly string[],

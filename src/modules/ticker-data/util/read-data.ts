@@ -9,7 +9,7 @@ import {
   getDateRelativeFiles,
   splitFileDataByTimestamp,
 } from './data-processing';
-import { BeforeAfterData } from './types';
+import { BeforeAfterData } from '../types';
 import { dateToUnixSeconds, dateToYearMonth } from './date';
 
 export interface ReadTickerDataResult {

@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon';
-import { YearMonth } from './types';
+import { YearMonth } from '../types';
 
 export function dateToYearMonth(date: string): YearMonth {
   const dateTime = DateTime.fromISO(date, { zone: 'UTC' });

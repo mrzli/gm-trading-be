@@ -2,7 +2,7 @@ import { invariant } from '@gmjs/assert';
 import { TickerDataResolution } from '@gmjs/gm-trading-shared';
 import { parseIntegerOrThrow } from '@gmjs/number-util';
 import { pathFsName } from '@gmjs/path';
-import { DateRelativeFiles, YearMonth } from '../types';
+import { DateRelativeFiles, YearMonth } from '../../types';
 
 export function getDateRelativeFiles(
   paths: readonly string[],
