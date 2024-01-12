@@ -26,10 +26,10 @@ export class TickerDataTd365Service {
     resolution: TickerDataResolution,
   ): Promise<TickerDataResponse> {
     // const { from, to } = input;
-    const { name: instrumentName } = instrument;
+    // const { name: instrumentName } = instrument;
 
-    const metadata =
-      await this.tickerDataMetadataService.getTd365Metadata(instrumentName);
+    // const metadata =
+    //   await this.tickerDataMetadataService.getTd365Metadata(instrumentName);
 
     const paths = await getDataPaths(input, this.dataDir);
 
