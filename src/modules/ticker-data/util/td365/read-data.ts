@@ -9,8 +9,9 @@ import {
   getDateRelativeFiles,
   splitFileDataByTimestamp,
 } from './data-processing';
-import { BeforeAfterData } from '../types';
+import { BeforeAfterData } from '../../types';
 import { dateToUnixSeconds, dateToYearMonth } from './date';
+import { tickerDataContentToLines } from '../../../../util';
 
 export interface ReadTickerDataResult {
   readonly data: readonly string[];
@@ -44,7 +45,9 @@ async function getBeforeAfterData(
   paths: readonly string[],
   entriesPadding: number,
 ): Promise<BeforeAfterData> {
-  const { date, resolution } = input;
+  const { resolution } = input;
+
+  const date = undefined;
 
   const yearMonth = date ? dateToYearMonth(date) : undefined;
 
@@ -141,9 +144,4 @@ async function getAfterData(
   }
 
   return afterData.slice(0, entriesPadding);
-}
-
-function tickerDataContentToLines(content: string): readonly string[] {
-  const lines = content.split('\n').filter((line) => line.trim() !== '');
-  return lines.length > 0 ? lines.slice(1) : [];
 }

@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { Td365Metadata } from './types';
-import { ConfigService } from '../config/config.service';
+import { TickerDataMetadataTd365Service } from './ticker-data-metadata-td365.service';
+import { Td365MetadataInstrument } from './types';
 
 @Injectable()
 export class TickerDataMetadataService {
-  public constructor(private readonly configService: ConfigService) {}
+  public constructor(
+    private readonly tickerDataMetadataTd365Service: TickerDataMetadataTd365Service,
+  ) {}
 
-  public async getTd365DataMetadata(): Promise<Td365Metadata> {
-    const { td365DataDir } = this.configService.configOptions;
-
-    return {
-      dataDir: td365DataDir,
-      instruments: new Map(),
-    };
+  public async getTd365Metadata(
+    instrumentName: string,
+  ): Promise<Td365MetadataInstrument> {
+    return this.tickerDataMetadataTd365Service.getMetadata(instrumentName);
   }
 }

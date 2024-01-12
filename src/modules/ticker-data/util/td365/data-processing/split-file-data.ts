@@ -1,5 +1,5 @@
-import { parseIntegerOrThrow } from '@gmjs/number-util';
-import { BeforeAfterData } from '../../types';
+import { BeforeAfterData } from '../../../types';
+import { getTickerDataLineTimestamp } from '../../../../../util';
 
 export function splitFileDataByTimestamp(
   data: readonly string[],
@@ -19,7 +19,7 @@ function findFirstGteTsIndex(data: readonly string[], ts: number): number {
 
   while (start <= end) {
     const mid = Math.floor((start + end) / 2);
-    const tsCurr = lineToTs(data, mid);
+    const tsCurr = getTickerDataLineTimestamp(data[mid]);
 
     if (ts === tsCurr) {
       return mid;
@@ -31,9 +31,4 @@ function findFirstGteTsIndex(data: readonly string[], ts: number): number {
   }
 
   return start;
-}
-
-function lineToTs(data: readonly string[], index: number): number {
-  const [tsStr] = data[index]?.split(',') ?? '';
-  return parseIntegerOrThrow(tsStr ?? '');
 }

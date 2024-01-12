@@ -1,7 +1,7 @@
 /* eslint-disable unicorn/numeric-separators-style */
 import { describe, expect, it } from '@jest/globals';
 import { splitFileDataByTimestamp } from './split-file-data';
-import { BeforeAfterData } from '../../types';
+import { BeforeAfterData } from '../../../types';
 
 const DATA: readonly string[] = [
   '1696197780,2023-10-01T22:03:00.000Z,15410.90,15410.90,15402.50,15409.70',

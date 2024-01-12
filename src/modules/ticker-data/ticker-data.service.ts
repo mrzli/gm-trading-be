@@ -18,10 +18,8 @@ export class TickerDataService {
   ): Promise<TickerDataResponse> {
     const { source, name, resolution } = input;
 
-    console.log('input', input);
-
     if (!this.dataService.hasInstrument(name)) {
-      throw new BadRequestException(`Instrument with name not foundd: '${name}'.`);
+      throw new BadRequestException(`Instrument with name not found: '${name}'.`);
     }
 
     const instrument = await this.dataService.getInstrumentByName(name);
