@@ -25,7 +25,7 @@ export class TickerDataTd365Service {
     instrument: Instrument,
     resolution: TickerDataResolution,
   ): Promise<TickerDataResponse> {
-    const { from, to } = input;
+    // const { from, to } = input;
     const { name: instrumentName } = instrument;
 
     const metadata =
@@ -33,7 +33,7 @@ export class TickerDataTd365Service {
 
     const paths = await getDataPaths(input, this.dataDir);
 
-    const { data, limitStart, limitEnd } = await readData(
+    const data = await readData(
       input,
       paths,
       DATA_ENTRIES_PADDING,
@@ -42,11 +42,8 @@ export class TickerDataTd365Service {
     return {
       instrument,
       resolution,
-      from,
-      to,
+      startChunkIndex: 0,
       data,
-      limitStart,
-      limitEnd,
     };
   }
 }

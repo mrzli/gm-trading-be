@@ -13,31 +13,18 @@ import { BeforeAfterData } from '../../types';
 import { dateToUnixSeconds, dateToYearMonth } from './date';
 import { tickerDataContentToLines } from '../../../../util';
 
-export interface ReadTickerDataResult {
-  readonly data: readonly string[];
-  readonly limitStart: boolean;
-  readonly limitEnd: boolean;
-}
-
 export async function readData(
   input: TickerDataRequest,
   paths: readonly string[],
   entriesPadding: number,
-): Promise<ReadTickerDataResult> {
+): Promise<readonly string[]> {
   const { before, after } = await getBeforeAfterData(
     input,
     paths,
     entriesPadding,
   );
 
-  const limitStart = before.length < entriesPadding;
-  const limitEnd = after.length < entriesPadding;
-
-  return {
-    data: [...before, ...after],
-    limitStart,
-    limitEnd,
-  };
+  return [...before, ...after];
 }
 
 async function getBeforeAfterData(
