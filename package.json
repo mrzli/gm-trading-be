@@ -29,7 +29,7 @@
   },
   "dependencies": {
     "@gmjs/apply-function": "^0.0.3",
-    "@gmjs/assert": "^0.0.5",
+    "@gmjs/assert": "^0.0.6",
     "@gmjs/compose-function": "^0.0.2",
     "@gmjs/data-container-util": "^0.0.1",
     "@gmjs/date-util": "^0.0.5",

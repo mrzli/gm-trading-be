@@ -9,8 +9,8 @@ dependencies:
     specifier: ^0.0.3
     version: 0.0.3
   '@gmjs/assert':
-    specifier: ^0.0.5
-    version: 0.0.5
+    specifier: ^0.0.6
+    version: 0.0.6
   '@gmjs/compose-function':
     specifier: ^0.0.2
     version: 0.0.2
@@ -645,8 +645,8 @@ packages:
       tslib: 2.6.2
     dev: true
 
-  /@gmjs/assert@0.0.5:
-    resolution: {integrity: sha512-SQvIvnm67twjMG/rfQ1sMNi2kgPDzW61nZNYZdt+UFJFWOlNuCCWk6GJUSQaom3f6GAYRSVlIJkLzhbb8wuLvw==}
+  /@gmjs/assert@0.0.6:
+    resolution: {integrity: sha512-eVzr9x1a/6Zk/nYGjWFfpdOysiEbcNAc9CosMVXak/jS4wi1dTwCwR4EQAz7Cx7wAu6rL18KkUvw/6cKcb+MgQ==}
     engines: {node: '>=16.0.0'}
     dependencies:
       tslib: 2.6.2
