@@ -92,10 +92,10 @@ async function loadInstrumentMetadata(
 
   const day = await loadInstrumentResolutionMetadata<Td365MetadataFileDay>(
     instrumentDir,
-    'day',
+    'D',
     (_path: string, sharedData: FileSharedData): Td365MetadataFileDay => {
       return {
-        resolution: 'day',
+        resolution: 'D',
         ...sharedData,
       };
     },
@@ -104,7 +104,7 @@ async function loadInstrumentMetadata(
   const quarter =
     await loadInstrumentResolutionMetadata<Td365MetadataFileQuarter>(
       instrumentDir,
-      'quarter',
+      '15m',
       (path: string, sharedData: FileSharedData): Td365MetadataFileQuarter => {
         const fileName = pathFsName(path);
         const match = fileName.match(/^(\d{4})$/);
@@ -117,7 +117,7 @@ async function loadInstrumentMetadata(
         const year = parseIntegerOrThrow(match[1]);
 
         return {
-          resolution: 'quarter',
+          resolution: '15m',
           ...sharedData,
           year,
         };
@@ -127,7 +127,7 @@ async function loadInstrumentMetadata(
   const minute =
     await loadInstrumentResolutionMetadata<Td365MetadataFileMinute>(
       instrumentDir,
-      'minute',
+      '1m',
       (path: string, sharedData: FileSharedData): Td365MetadataFileMinute => {
         const fileName = pathFsName(path);
         const match = fileName.match(/^(\d{4})-(\d{2})$/);
@@ -141,7 +141,7 @@ async function loadInstrumentMetadata(
         const month = parseIntegerOrThrow(match[2]);
 
         return {
-          resolution: 'minute',
+          resolution: '1m',
           ...sharedData,
           year,
           month,

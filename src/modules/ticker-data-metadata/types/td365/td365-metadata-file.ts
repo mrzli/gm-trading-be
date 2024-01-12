@@ -10,16 +10,16 @@ export interface Td365MetadataFileBase {
 }
 
 export interface Td365MetadataFileDay extends Td365MetadataFileBase {
-  readonly resolution: 'day';
+  readonly resolution: 'D';
 }
 
 export interface Td365MetadataFileQuarter extends Td365MetadataFileBase {
-  readonly resolution: 'quarter';
+  readonly resolution: '15m';
   readonly year: number;
 }
 
 export interface Td365MetadataFileMinute extends Td365MetadataFileBase {
-  readonly resolution: 'minute';
+  readonly resolution: '1m';
   readonly year: number;
   readonly month: number;
 }

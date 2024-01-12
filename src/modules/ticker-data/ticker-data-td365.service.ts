@@ -1,12 +1,10 @@
 import {
   Instrument,
   TickerDataRequest,
-  TickerDataResolution,
   TickerDataResponse,
 } from '@gmjs/gm-trading-shared';
 import { Injectable } from '@nestjs/common';
-import { getDataPaths, readData } from './util';
-import { TickerDataMetadataService } from '../ticker-data-metadata/ticker-data-metadata.service';
+import { getTickerDataInfo, readData } from './util';
 import { ConfigService } from '../config/config.service';
 
 @Injectable()
@@ -15,7 +13,7 @@ export class TickerDataTd365Service {
 
   public constructor(
     configService: ConfigService,
-    private readonly tickerDataMetadataService: TickerDataMetadataService,
+    // private readonly tickerDataMetadataService: TickerDataMetadataService,
   ) {
     this.dataDir = configService.configOptions.td365DataDir;
   }
@@ -23,7 +21,6 @@ export class TickerDataTd365Service {
   public async getTickerData(
     input: TickerDataRequest,
     instrument: Instrument,
-    resolution: TickerDataResolution,
   ): Promise<TickerDataResponse> {
     // const { from, to } = input;
     // const { name: instrumentName } = instrument;
@@ -31,21 +28,15 @@ export class TickerDataTd365Service {
     // const metadata =
     //   await this.tickerDataMetadataService.getTd365Metadata(instrumentName);
 
-    const paths = await getDataPaths(input, this.dataDir);
+    const info = await getTickerDataInfo(input, this.dataDir);
+    const { paths, dataResolution } = info;
 
-    const data = await readData(
-      input,
-      paths,
-      DATA_ENTRIES_PADDING,
-    );
+    const data = await readData(paths);
 
     return {
       instrument,
-      resolution,
-      startChunkIndex: 0,
+      dataResolution,
       data,
     };
   }
 }
-
-const DATA_ENTRIES_PADDING = 1_000_000;

@@ -1,9 +1,6 @@
 import { TickerDataTd365Service } from './ticker-data-td365.service';
 import { BadRequestException, Injectable } from '@nestjs/common';
-import {
-  TickerDataRequest,
-  TickerDataResponse,
-} from '@gmjs/gm-trading-shared';
+import { TickerDataRequest, TickerDataResponse } from '@gmjs/gm-trading-shared';
 import { DataService } from '../data/data.service';
 
 @Injectable()
@@ -16,10 +13,12 @@ export class TickerDataService {
   public async getTickerData(
     input: TickerDataRequest,
   ): Promise<TickerDataResponse> {
-    const { source, name, resolution } = input;
+    const { source, name } = input;
 
     if (!this.dataService.hasInstrument(name)) {
-      throw new BadRequestException(`Instrument with name not found: '${name}'.`);
+      throw new BadRequestException(
+        `Instrument with name not found: '${name}'.`,
+      );
     }
 
     const instrument = await this.dataService.getInstrumentByName(name);
@@ -29,7 +28,6 @@ export class TickerDataService {
         return await this.tickerDataTd365Service.getTickerData(
           input,
           instrument,
-          resolution,
         );
       }
       default: {
