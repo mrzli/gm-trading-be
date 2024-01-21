@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '../config/config.service';
-import { MysqlService } from '../db/mysql.service';
+import { UserRepository } from '../db/repositories';
 
 @Injectable()
 export class ExampleService {
   public constructor(
     private readonly configService: ConfigService,
-    private readonly mysqlService: MysqlService,
+    private readonly userRepository: UserRepository,
   ) {}
 
   public getExample(): string {
@@ -18,11 +18,8 @@ export class ExampleService {
   }
 
   public async getDb(): Promise<string> {
-    const result = await this.mysqlService.execute(async (connection) => {
-      const [rows] = await connection.query('SELECT 1 + 1 AS solution');
-      return rows;
-    });
-
+    const result = await this.userRepository.findOneOrThrow(1);
+    console.log(result);
     return JSON.stringify(result);
   }
 }
