@@ -93,6 +93,6 @@ export class MysqlService implements OnModuleInit, OnModuleDestroy {
   }
 }
 
-export type QueryValue = string | number | boolean | null;
+export type QueryValue = string | number | boolean | Date | null;
 
 export type ExecuteSql<T> = (connection: PoolConnection) => Promise<T>;

@@ -1,3 +1,4 @@
+import { RowDataPacket } from 'mysql2/promise';
 import { Injectable } from '@nestjs/common';
 import { MysqlService } from '../mysql.service';
 import { DbUser } from '../types';
@@ -12,11 +13,15 @@ export class UserRepository {
       [userId],
     );
 
-    return {
-      id: result['id'],
-      email: result['email'],
-      created_at: result['created_at'],
-      updated_at: result['updated_at'],
-    }
+    return rowDataPacketToDbUser(result);
   }
+}
+
+function rowDataPacketToDbUser(row: RowDataPacket): DbUser {
+  return {
+    id: row['id'],
+    email: row['email'],
+    created_at: row['created_at'],
+    updated_at: row['updated_at'],
+  };
 }
