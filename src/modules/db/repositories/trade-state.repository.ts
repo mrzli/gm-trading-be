@@ -20,14 +20,11 @@ export class TradeStateRepository {
   }
 
   public async upsert(
-    key: Pick<DbTradeState, 'user_id' | 'save_name'>,
-    data: NonRequiredOnly<
-      DbTradeState,
-      'id' | 'user_id' | 'save_name' | 'created_at' | 'updated_at'
-    >,
+    data: NonRequiredOnly<DbTradeState, 'id' | 'created_at' | 'updated_at'>,
   ): Promise<void> {
-    const { user_id, save_name } = key;
     const {
+      user_id,
+      save_name,
       ticker_data_source,
       ticker_name,
       ticker_resolution,

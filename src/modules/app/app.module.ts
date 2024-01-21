@@ -3,9 +3,16 @@ import { ExampleModule } from '../example/example.module';
 import { TickerDataModule } from '../ticker-data/ticker-data.module';
 import { InstrumentModule } from '../instrument/instrument.module';
 import { DataModule } from '../data/data.module';
+import { TradeModule } from '../trade/trade.module';
 
 @Module({
-  imports: [DataModule, ExampleModule, InstrumentModule, TickerDataModule],
+  imports: [
+    DataModule,
+    ExampleModule,
+    InstrumentModule,
+    TickerDataModule,
+    TradeModule,
+  ],
   controllers: [],
   providers: [],
 })
