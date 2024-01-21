@@ -14,4 +14,9 @@ export class ExampleController {
   public getNodeEnv(): string {
     return this.exampleService.getNodeEnv();
   }
+
+  @Get('db')
+  public async getDb(): Promise<string> {
+    return this.exampleService.getDb();
+  }
 }

@@ -16,7 +16,7 @@ const SCHEMA_COMMA_SEPARATED_URLS = z.string().refine(
 );
 
 const ENV_SCHEMA = z.object({
-  NODE_ENV: z.string(),
+  NODE_ENV: z.string().min(1),
   LOG_LEVEL: z
     .string()
     .regex(/^(?:error|warn|info|debug|verbose|off)$/)
@@ -24,7 +24,12 @@ const ENV_SCHEMA = z.object({
   PORT: z.string().regex(/^\d{1,5}$/),
   API_PREFIX: z.string().regex(/^[\da-z]+(?:-[\da-z])*$/),
   CORS_ALLOWED_ORIGINS: SCHEMA_COMMA_SEPARATED_URLS.optional(),
-  TD365_DATA_DIR: z.string(),
+  TD365_DATA_DIR: z.string().min(1),
+  DB_HOST: z.string().min(1),
+  DB_PORT: z.string().regex(/^\d{1,5}$/),
+  DB_USER: z.string().min(1),
+  DB_PASSWORD: z.string().min(1),
+  DB_NAME: z.string().min(1),
 });
 
 type EnvRaw = z.infer<typeof ENV_SCHEMA>;
@@ -42,6 +47,11 @@ function envRawToEnv(raw: EnvRaw): Env {
     apiPrefix: raw.API_PREFIX,
     corsAllowedOrigins: toCorsAllowedOrigins(raw.CORS_ALLOWED_ORIGINS),
     td365DataDir: raw.TD365_DATA_DIR,
+    dbHost: raw.DB_HOST,
+    dbPort: parseIntegerOrThrow(raw.DB_PORT),
+    dbUser: raw.DB_USER,
+    dbPassword: raw.DB_PASSWORD,
+    dbName: raw.DB_NAME,
   };
 }
 
