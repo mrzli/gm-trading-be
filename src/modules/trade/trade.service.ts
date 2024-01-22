@@ -1,6 +1,10 @@
 import { NonRequiredOnly } from './../../types/generic/generic';
 import { Injectable } from '@nestjs/common';
-import { TickerDataResolution, TradeState } from '@gmjs/gm-trading-shared';
+import {
+  TickerDataResolution,
+  TickerDataSource,
+  TradeState,
+} from '@gmjs/gm-trading-shared';
 import { TradeStateRepository } from '../db/repositories';
 import { parseIntegerOrThrow } from '@gmjs/number-util';
 import { DbTradeState } from '../db/types';
@@ -27,7 +31,7 @@ function dbTradeStateToTradeState(dbTradeState: DbTradeState): TradeState {
   return {
     userId: dbTradeState.user_id.toString(),
     saveName: dbTradeState.save_name,
-    tickerDataSource: dbTradeState.ticker_data_source,
+    tickerDataSource: dbTradeState.ticker_data_source as TickerDataSource,
     tickerName: dbTradeState.ticker_name,
     tickerResolution: dbTradeState.ticker_resolution as TickerDataResolution,
     timezone: dbTradeState.timezone,
