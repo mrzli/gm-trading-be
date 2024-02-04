@@ -1,4 +1,5 @@
 import Ajv, { ValidateFunction } from 'ajv';
+import addFormats from "ajv-formats"
 import { invariant } from '@gmjs/assert';
 import { readTextAsync } from '@gmjs/fs-async';
 import { join } from '@gmjs/path';
@@ -6,6 +7,7 @@ import { join } from '@gmjs/path';
 export const SERVER_DATA_DIR = 'data';
 
 export const AJV = new Ajv();
+addFormats(AJV);
 
 export async function readJson<TResult>(
   file: string,
