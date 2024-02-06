@@ -22,6 +22,7 @@ import { applyFn } from '@gmjs/apply-function';
 import { minBy } from '@gmjs/value-transformers';
 
 export interface StrategyBreakoutContext {
+  readonly nextActionId: number;
   readonly nextTriggerCheckTime: number;
   readonly nextCloseCheckTime: number;
 }
@@ -54,7 +55,7 @@ export function createStrategyBarProcessingBreakout(
     const { pipDigit } = params;
     const { activeOrders, activeTrades } = tradesCollection;
 
-    let { nextTriggerCheckTime, nextCloseCheckTime } = context;
+    let { nextActionId, nextTriggerCheckTime, nextCloseCheckTime } = context;
 
     const {
       openTime: marketOpenHourMinute,
@@ -121,7 +122,7 @@ export function createStrategyBarProcessingBreakout(
             // buy at the top, with stop-loss at the bottom
             {
               kind: 'open',
-              id: 0,
+              id: nextActionId++,
               time: currentTime,
               price: buyPrice,
               amount: 1,
@@ -131,7 +132,7 @@ export function createStrategyBarProcessingBreakout(
             // sell at the bottom, with stop-loss at the top
             {
               kind: 'open',
-              id: 0,
+              id: nextActionId++,
               time: currentTime,
               price: sellPrice,
               amount: -1,
@@ -192,6 +193,7 @@ export function createStrategyBarProcessingBreakout(
     return {
       nextStepActions,
       context: {
+        nextActionId,
         nextTriggerCheckTime,
         nextCloseCheckTime,
       },

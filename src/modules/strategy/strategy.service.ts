@@ -1,4 +1,7 @@
-import { RunStrategyRequest } from '@gmjs/gm-trading-shared';
+import {
+  RunStrategyRequest,
+  RunStrategyResponse,
+} from '@gmjs/gm-trading-shared';
 import { Injectable } from '@nestjs/common';
 import { TickerDataService } from '../ticker-data/ticker-data.service';
 import {
@@ -17,7 +20,9 @@ export class StrategyService {
     private readonly tickerDataService: TickerDataService,
   ) {}
 
-  public async runStrategy(input: RunStrategyRequest): Promise<void> {
+  public async runStrategy(
+    input: RunStrategyRequest,
+  ): Promise<RunStrategyResponse> {
     const {
       instrumentSource,
       instrumentName,
@@ -40,18 +45,22 @@ export class StrategyService {
     const strategyInputs: StrategyInputs = {
       instrument,
       params: tradingParameters,
-      data
+      data,
     };
 
     const strategy = createStrategyBarProcessingBreakout({});
 
     const initialContext: StrategyBreakoutContext = {
+      nextActionId: 0,
       nextTriggerCheckTime: 0,
       nextCloseCheckTime: 0,
     };
 
     const result = processStrategy(strategyInputs, strategy, initialContext);
 
-    console.log('result', result);
+    return {
+      params: result.params,
+      actions: result.actions,
+    };
   }
 }
