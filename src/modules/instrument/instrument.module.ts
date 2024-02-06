@@ -6,6 +6,6 @@ import { InstrumentService } from './instrument.service';
   imports: [],
   controllers: [InstrumentController],
   providers: [InstrumentService],
-  exports: [],
+  exports: [InstrumentService],
 })
 export class InstrumentModule {}

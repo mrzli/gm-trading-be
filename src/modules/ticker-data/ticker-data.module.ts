@@ -8,6 +8,6 @@ import { TickerDataTd365Service } from './ticker-data-td365.service';
   imports: [TickerDataMetadataModule],
   controllers: [TickerDataController],
   providers: [TickerDataService, TickerDataTd365Service],
-  exports: [],
+  exports: [TickerDataService],
 })
 export class TickerDataModule {}

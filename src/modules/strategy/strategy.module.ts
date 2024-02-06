@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { StrategyController } from './strategy.controller';
 import { StrategyService } from './strategy.service';
+import { TickerDataModule } from '../ticker-data/ticker-data.module';
+import { InstrumentModule } from '../instrument/instrument.module';
 
 @Module({
-  imports: [],
+  imports: [InstrumentModule, TickerDataModule],
   controllers: [StrategyController],
   providers: [StrategyService],
   exports: [],
