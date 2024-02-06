@@ -19,7 +19,7 @@ import {
 } from '@gmjs/date-util';
 import { getHourMinute, unixSecondsToWeekday } from '../../../../util';
 import { applyFn } from '@gmjs/apply-function';
-import { minBy } from '@gmjs/value-transformers';
+import { maxBy, minBy } from '@gmjs/value-transformers';
 
 export interface StrategyBreakoutContext {
   readonly nextActionId: number;
@@ -38,7 +38,7 @@ export function createStrategyBarProcessingBreakout(
   ): StrategyBarProcessingReturnValue<StrategyBreakoutContext> => {
     const breakoutStartOffset = 0;
     // const breakoutStartTimeRelativeTo = 'market-open';
-    const breakoutTimeRange = 20;
+    const breakoutTimeRange = 15;
     const breakoutPtsPadding = 2;
 
     // const fractionStopLoss = 0.5;
@@ -112,7 +112,7 @@ export function createStrategyBarProcessingBreakout(
           );
           const breakoutMax = applyFn(
             breakoutBars,
-            minBy((bar) => bar.high),
+            maxBy((bar) => bar.high),
           );
           const buyPrice = breakoutMax + padding;
           const sellPrice = breakoutMin - padding;
