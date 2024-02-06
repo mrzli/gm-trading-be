@@ -30,12 +30,6 @@ export function processStrategy<TContext = unknown>(
     completedTrades: [],
   };
 
-  const getManualTradeActionsForBar = (
-    _index: number,
-  ): readonly ManualTradeActionAny[] => {
-    return currentStrategyStepResult.nextStepActions;
-  };
-
   for (let i = 1; i < data.length; i++) {
     currentStrategyStepResult = strategy(
       inputs,
@@ -50,7 +44,7 @@ export function processStrategy<TContext = unknown>(
       data,
       i,
       data.length - 1,
-      getManualTradeActionsForBar,
+      () => currentStrategyStepResult.nextStepActions,
       undefined,
     );
 

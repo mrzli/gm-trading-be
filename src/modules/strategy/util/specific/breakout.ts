@@ -47,6 +47,8 @@ export function createStrategyBarProcessingBreakout(
     const tradeCloseOffset = -5;
     // const closeTimeRelativeTo = 'market-close';
 
+    // const cancelOtherDirection = true;
+
     // ---------------------------------------
 
     invariant(context !== undefined, 'Context must be defined');
@@ -67,6 +69,18 @@ export function createStrategyBarProcessingBreakout(
     const currentTime = currentBar.time;
 
     const nextStepActions: ManualTradeActionAny[] = [];
+
+    // cancel other orders if one is filled
+    if (activeTrades.length > 0) {
+      for (const activeOrder of activeOrders) {
+        nextStepActions.push({
+          kind: 'cancel-order',
+          id: activeOrder.id,
+          time: currentTime,
+          targetId: activeOrder.id,
+        });
+      }
+    }
 
     if (currentTime >= nextTriggerCheckTime) {
       const marketOpenTimeUnixSeconds = unixSecondsAtTimeOfDay(
