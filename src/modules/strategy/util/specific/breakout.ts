@@ -9,6 +9,7 @@ import {
   StrategyBarProcessingReturnValue,
   StrategyInputs,
   StrategySpecificInputBreakout,
+  StrategyTradeEvents,
 } from '../../types';
 import { invariant } from '@gmjs/assert';
 import {
@@ -20,6 +21,7 @@ import {
 import { getHourMinute, unixSecondsToWeekday } from '../../../../util';
 import { applyFn } from '@gmjs/apply-function';
 import { maxBy, minBy } from '@gmjs/value-transformers';
+import { clamp } from '@gmjs/number-util';
 
 export interface StrategyBreakoutContext {
   readonly nextActionId: number;
@@ -34,15 +36,23 @@ export function createStrategyBarProcessingBreakout(
     inputs: StrategyInputs,
     index: number,
     tradesCollection: TradesCollection,
+    tradeEvents: StrategyTradeEvents,
     context?: StrategyBreakoutContext,
   ): StrategyBarProcessingReturnValue<StrategyBreakoutContext> => {
-    const breakoutStartOffset = 0;
+    const breakoutStartOffset = -60;
     // const breakoutStartTimeRelativeTo = 'market-open';
-    const breakoutTimeRange = 15;
-    const breakoutPtsPadding = 2;
+    const breakoutTimeRange = 60;
+    const breakoutPtsPadding = 0;
 
-    // const fractionStopLoss = 0.5;
-    // const maxStopLossPts = 10;
+    const stopLossFraction = 0.1;
+    const stopLossMinPts = 18;
+    const stopLossMaxPts = 18;
+    const limitFraction = 0.2;
+    const limitMinPts = 100;
+    const limitMaxPts = 100;
+
+    const orderCanceOffset = 10;
+    // const cancelTimeRelativeTo = 'market-open';
 
     const tradeCloseOffset = -5;
     // const closeTimeRelativeTo = 'market-close';
@@ -70,8 +80,10 @@ export function createStrategyBarProcessingBreakout(
 
     const nextStepActions: ManualTradeActionAny[] = [];
 
-    // cancel other orders if one is filled
-    if (activeTrades.length > 0) {
+    // cancel other orders if any one is filled
+    // it is possible that the order is filled and completed in the same bar
+    //   so we can also check filled order events that occurred in the last bar
+    if (activeTrades.length > 0 || tradeEvents.filledOrders.length > 0) {
       for (const activeOrder of activeOrders) {
         nextStepActions.push({
           kind: 'cancel-order',
@@ -128,30 +140,45 @@ export function createStrategyBarProcessingBreakout(
             breakoutBars,
             maxBy((bar) => bar.high),
           );
-          const buyPrice = breakoutMax + padding;
-          const sellPrice = breakoutMin - padding;
-          const stopLossDistance = buyPrice - sellPrice;
+          const topPrice = breakoutMax + padding;
+          const bottomPrice = breakoutMin - padding;
+          const stopLossDistance = clamp(
+            (topPrice - bottomPrice) * stopLossFraction,
+            stopLossMinPts,
+            stopLossMaxPts,
+          );
+
+          const limitDistance = clamp(
+            (topPrice - bottomPrice) * limitFraction,
+            limitMinPts,
+            limitMaxPts,
+          );
+
+          // const amount = Math.max(
+          //   0.5,
+          //   Math.ceil((400 / stopLossDistance) * 2) / 2,
+          // );
+
+          const amount = 10;
 
           nextStepActions.push(
-            // buy at the top, with stop-loss at the bottom
             {
               kind: 'open',
               id: nextActionId++,
               time: currentTime,
-              price: buyPrice,
-              amount: 1,
+              price: topPrice,
+              amount: amount,
               stopLossDistance,
-              limitDistance: undefined,
+              limitDistance,
             },
-            // sell at the bottom, with stop-loss at the top
             {
               kind: 'open',
               id: nextActionId++,
               time: currentTime,
-              price: sellPrice,
-              amount: -1,
+              price: bottomPrice,
+              amount: -amount,
               stopLossDistance,
-              limitDistance: undefined,
+              limitDistance,
             },
           );
         }
