@@ -102,5 +102,18 @@
     "openTime": "00:00",
     "closeTime": "00:00",
     "timezone": "UTC"
+  },
+  {
+    "name": "GOLD",
+    "marketId": 68924,
+    "quoteId": 878770,
+    "precision": 2,
+    "dataPrecision": 2,
+    "pipDigit": -1,
+    "spread": 3,
+    "minStopLoss": 6.0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "UTC"
   }
 ]
