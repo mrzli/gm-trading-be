@@ -13,8 +13,12 @@ const SCHEMA: JSONSchemaType<DatesData> = {
       type: 'array',
       items: { type: 'string', format: 'date' },
     },
+    usCpiDates: {
+      type: 'array',
+      items: { type: 'string', format: 'date' },
+    },
   },
-  required: ['nyseMarketHolidays', 'fomcDates'],
+  required: ['nyseMarketHolidays', 'fomcDates', 'usCpiDates'],
   additionalProperties: false,
 };
 
