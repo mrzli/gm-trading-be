@@ -1,0 +1,3 @@
+- FOMC time: 14:00 NY
+- CPI time: 8:30 NY
+- Employment time: 8:30 NY

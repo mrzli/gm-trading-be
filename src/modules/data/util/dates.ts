@@ -17,8 +17,17 @@ const SCHEMA: JSONSchemaType<DatesData> = {
       type: 'array',
       items: { type: 'string', format: 'date' },
     },
+    usEmploymentDates: {
+      type: 'array',
+      items: { type: 'string', format: 'date' },
+    },
   },
-  required: ['nyseMarketHolidays', 'fomcDates', 'usCpiDates'],
+  required: [
+    'nyseMarketHolidays',
+    'fomcDates',
+    'usCpiDates',
+    'usEmploymentDates',
+  ],
   additionalProperties: false,
 };
 
