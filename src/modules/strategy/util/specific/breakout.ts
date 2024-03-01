@@ -39,25 +39,27 @@ export function createStrategyBarProcessingBreakout(
     tradeEvents: StrategyTradeEvents,
     context?: StrategyBreakoutContext,
   ): StrategyBarProcessingReturnValue<StrategyBreakoutContext> => {
-    const breakoutStartOffset = -60;
+    const breakoutStartOffset = -1;
     // const breakoutStartTimeRelativeTo = 'market-open';
-    const breakoutTimeRange = 60;
-    const breakoutPtsPadding = 0;
+    const breakoutTimeRange = 1;
+    const breakoutPtsPadding = 5;
 
-    const stopLossFraction = 0.1;
-    const stopLossMinPts = 18;
-    const stopLossMaxPts = 18;
-    const limitFraction = 0.2;
-    const limitMinPts = 100;
-    const limitMaxPts = 100;
+    const stopLossFraction = 1;
+    const stopLossMinPts = 0;
+    const stopLossMaxPts = 1000;
+    const limitFraction = undefined;
+    const limitMinPts = 10;
+    const limitMaxPts = 10;
 
     const orderCanceOffset = 10;
     // const cancelTimeRelativeTo = 'market-open';
 
-    const tradeCloseOffset = -5;
-    // const closeTimeRelativeTo = 'market-close';
+    const tradeCloseOffset = 2;
+    // const closeTimeRelativeTo = 'market-open';
 
     // const cancelOtherDirection = true;
+
+    const amount = 10;
 
     // ---------------------------------------
 
@@ -87,22 +89,43 @@ export function createStrategyBarProcessingBreakout(
       for (const activeOrder of activeOrders) {
         nextStepActions.push({
           kind: 'cancel-order',
-          id: activeOrder.id,
+          id: nextActionId++,
           time: currentTime,
           targetId: activeOrder.id,
         });
       }
+
+    //   const currentPrice = data[index + 1]?.open;
+    //   if (currentPrice !== undefined) {
+    //     for (const activeTrade of activeTrades) {
+    //       if (activeTrade.stopLoss !== activeTrade.openPrice) {
+    //         const isBuy = activeTrade.amount > 0;
+    //         const stopLossPrice = isBuy
+    //           ? Math.min(activeTrade.openPrice, currentPrice - 6)
+    //           : Math.max(activeTrade.openPrice, currentPrice + 6);
+
+    //         nextStepActions.push({
+    //           kind: 'amend-trade',
+    //           id: nextActionId++,
+    //           time: currentTime,
+    //           targetId: activeTrade.id,
+    //           limit: activeTrade.limit,
+    //           stopLoss: stopLossPrice,
+    //         });
+    //       }
+    //     }
+    //   }
     }
 
     if (currentTime >= nextTriggerCheckTime) {
-      const marketOpenTimeUnixSeconds = unixSecondsAtTimeOfDay(
+      const marketOpenSeconds = unixSecondsAtTimeOfDay(
         currentTime,
         marketOpenHourMinute,
         timezone,
       );
 
       const breakoutStart =
-        marketOpenTimeUnixSeconds + breakoutStartOffset * MINUTE_TO_SECONDS;
+        marketOpenSeconds + breakoutStartOffset * MINUTE_TO_SECONDS;
       const breakoutEnd = breakoutStart + breakoutTimeRange * MINUTE_TO_SECONDS;
 
       if (currentTime < breakoutEnd) {
@@ -148,18 +171,19 @@ export function createStrategyBarProcessingBreakout(
             stopLossMaxPts,
           );
 
-          const limitDistance = clamp(
-            (topPrice - bottomPrice) * limitFraction,
-            limitMinPts,
-            limitMaxPts,
-          );
+          const limitDistance =
+            limitFraction === undefined
+              ? undefined
+              : clamp(
+                  (topPrice - bottomPrice) * limitFraction,
+                  limitMinPts,
+                  limitMaxPts,
+                );
 
           // const amount = Math.max(
           //   0.5,
           //   Math.ceil((400 / stopLossDistance) * 2) / 2,
           // );
-
-          const amount = 10;
 
           nextStepActions.push(
             {
@@ -192,14 +216,20 @@ export function createStrategyBarProcessingBreakout(
     }
 
     if (currentTime >= nextCloseCheckTime) {
-      const marketCloseSeconds = unixSecondsAtTimeOfDay(
+      const marketOpenSeconds = unixSecondsAtTimeOfDay(
         currentTime,
-        marketCloseHourMinute,
+        marketOpenHourMinute,
         timezone,
       );
 
+      // const marketCloseSeconds = unixSecondsAtTimeOfDay(
+      //   currentTime,
+      //   marketCloseHourMinute,
+      //   timezone,
+      // );
+
       const tradeCloseTime =
-        marketCloseSeconds + tradeCloseOffset * MINUTE_TO_SECONDS;
+        marketOpenSeconds + tradeCloseOffset * MINUTE_TO_SECONDS;
       if (currentTime >= tradeCloseTime) {
         // we are after the trade close time
 
